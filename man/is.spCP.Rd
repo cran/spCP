@@ -17,13 +17,3 @@ is.spCP(x)
 The \code{\link{spCP}} class is defined as the regression object that
  results from the \code{\link{spCP}} regression function.
 }
-\examples{
-
-###Load example spCP object from spCP documentation
-data(reg.spCP)
-
-###Check an object
-is.spCP(reg.spCP)
-
-}
-

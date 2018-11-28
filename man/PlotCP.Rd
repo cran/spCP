@@ -4,23 +4,24 @@
 \alias{PlotCP}
 \title{PlotCP}
 \usage{
-PlotCP(object, data, location = "Location", time = "Time", dls = "DLS",
-  line = TRUE, ci = TRUE, lwd = 1, lty = 1, col = 2, ci.lwd = 1,
-  ci.lty = 2, ci.col = 2, cp.line = FALSE, cp.ci = FALSE, cp.lwd = 1,
-  cp.lty = 1, cp.col = 4, cp.ci.lwd = 1, cp.ci.lty = 2, cp.ci.col = 4,
+PlotCP(object, data, location = "Location", time = "Time",
+  dls = "DLS", line = TRUE, ci = TRUE, lwd = 1, lty = 1,
+  col = 2, ci.lwd = 1, ci.lty = 2, ci.col = 2, cp.line = FALSE,
+  cp.ci = FALSE, cp.lwd = 1, cp.lty = 1, cp.col = 4,
+  cp.ci.lwd = 1, cp.ci.lty = 2, cp.ci.col = 4,
   main = "Estimated visual field sensitivity\\nusing change points",
   xlab = "Years from baseline visit", ylab = "Sensitivity (dB)")
 }
 \arguments{
 \item{object}{a spCP regression object.}
 
-\item{data}{a dataframe containing the raw sensitivies.}
+\item{data}{a dataframe containing the raw sensitivities.}
 
 \item{location}{a character string indicating the column name in data of the variable of locations on the visual field.}
 
 \item{time}{a character string indicating the column name in data of the variable of visual field testing times.}
 
-\item{dls}{a character string indicating the column name in data of the variable of the raw visual field sensitivites.}
+\item{dls}{a character string indicating the column name in data of the variable of the raw visual field sensitivities.}
 
 \item{line}{logical, determines if there are regression lines printed (default = TRUE).}
 
@@ -73,21 +74,6 @@ Plots estimated visual field sensitivities using change point model.
  along with the estimated mean process (with 95 percent credible intervals) and the
  estimated mean posterior change point location (with 95 percent credible intervals).
 }
-\examples{
-
-###Load example spCP object from spCP documentation
-data(reg.spCP)
-
-###Load VF data
-data(VFSeries)
-
-###Plot Change Points (given a spCP object)
-PlotCP(reg.spCP, VFSeries,
-       dls = "DLS", time = "Time", location = "Location",
-       cp.line = TRUE, cp.ci = TRUE)
-
-}
 \author{
 Samuel I. Berchuck
 }
-

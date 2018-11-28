@@ -8,8 +8,8 @@
 \usage{
 spCP(Y, DM, W, Time, Starting = NULL, Hypers = NULL, Tuning = NULL,
   MCMC = NULL, Family = "tobit", Weights = "continuous",
-  Distance = "circumference", Rho = 0.99, ScaleY = 10, ScaleDM = 100,
-  Seed = 54)
+  Distance = "circumference", Rho = 0.99, ScaleY = 10,
+  ScaleDM = 100, Seed = 54)
 }
 \arguments{
 \item{Y}{An \code{N} dimensional vector containing the observed outcome data.
@@ -23,7 +23,7 @@ for each spatial location. The order of the spatial locations must match the ord
 \code{Y}.}
 
 \item{W}{An \code{M x M} dimensional binary adjacency matrix for dictating the
-spatial neigborhood structure.}
+spatial neighborhood structure.}
 
 \item{Time}{A \code{Nu} dimensional vector containing the observed time points for each
 vector of outcomes in increasing order.}
@@ -164,71 +164,9 @@ distances is often used for improved MCMC convergence. By default it is fixed at
 Details of the underlying statistical model proposed by proposed by
  Berchuck et al. 2018. are forthcoming.
 }
-\examples{
-\donttest{###Load package
-library(spCP)
-
-###Define blind side
-blind_spot <- c(26, 35)
-
-###Use package VF data
-VFSeries <- VFSeries[order(VFSeries$Visit), ] #sort by visit
-VFSeries <- VFSeries[!VFSeries$Location \%in\% blind_spot, ] #remove blind spot locations
-Y <- VFSeries$DLS #assign observed outcome data
-Time <- unique(VFSeries$Time) / 365 #time since first visit
-Nu <- length(Time)
-M <- length(unique(VFSeries$Location))
-
-###Create original adjacency matrix
-W <- HFAII_Queen[ -blind_spot, -blind_spot] #Visual field adjacency matrix
-
-###Load Garway-Heath angles for dissimiliarity metric
-DM <- GarwayHeath[-blind_spot] #Uses Garway-Heath angles object "GarwayHeath"
-
-###Compute bounds for alpha
-ScaleDM <- 1
-pdist <- function(x, y, ScaleDM) pmin(abs(x - y), (360 / ScaleDM - pmax(x, y) + pmin(x, y)))
-DM_Grid <- expand.grid(DM / ScaleDM, DM / ScaleDM)
-DM_Vector <- pdist(DM_Grid[ , 1], DM_Grid[ , 2], ScaleDM)
-DM_Matrix <- matrix(DM_Vector, nrow = M, ncol = M, byrow = TRUE)
-AdjacentEdgesBoolean <- (W == 1) & (!lower.tri(W))
-DM_Long <- DM_Matrix[AdjacentEdgesBoolean]
-BAlpha <- -log(0.5) / min(DM_Long[DM_Long > 0])
-AAlpha <- 0
-
-###Initial values
-Starting <- list(Sigma = 0.01 * diag(5),
-                 Alpha = mean(c(AAlpha, BAlpha)),
-                 Delta = c(0, 0, 0, 0, 0))
-
-###Hyperparameters
-Hypers <- list(Alpha = list(AAlpha = AAlpha, BAlpha = BAlpha),
-              Sigma = list(Xi = 6, Psi = diag(5)),
-              Delta = list(Kappa2 = 1000))
-
-###Metropolis tuners
-Tuning <- list(Lambda0Vec = rep(0.1, M),
-               Lambda1Vec = rep(0.1, M),
-               EtaVec = rep(0.1, M),
-               Alpha = 0.1)
-
-###MCMC inputs
-MCMC <- list(NBurn = 100, NSims = 250, NThin = 2, NPilot = 5)
-
-###Fit spatially varying change point model
-reg.spCP <- spCP(Y = Y, DM = DM, W = W, Time = Time,
-                 Starting = Starting, Hypers = Hypers,
-                 Tuning = Tuning, MCMC = MCMC)
-
-###Traceplot for alpha
-library(coda)
-traceplot(as.mcmc(reg.spCP$alpha), ylab = expression(alpha))
-}
+\references{
+Reference for Berchuck et al. 2018 is forthcoming.
 }
 \author{
 Samuel I. Berchuck \email{sib2@duke.edu}
 }
-\references{
-Reference for Berchuck et al. 2018 is forthcoming.
-}
-

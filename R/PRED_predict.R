@@ -25,15 +25,6 @@
 #'   }
 #'
 #' @author Samuel I. Berchuck
-#'
-#' @examples
-#'
-#' ###Load example spCP object from spCP documentation
-#' data(reg.spCP)
-#'
-#' ###Obtain predictions from a spCP regression object
-#' Y <- predict(reg.spCP, NewTimes = c(1.25, 1.50))
-#'
 #' @export
 ###Prediction function for spCP function
 predict.spCP <- function(object, NewTimes, ...) {

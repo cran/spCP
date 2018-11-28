@@ -109,7 +109,7 @@ traceplot(Alpha, ylab = expression(alpha), main = expression(paste("Posterior" ~
 ## ---- echo = FALSE-------------------------------------------------------
 geweke.diag(Alpha)$z
 
-## ---- echo = FALSE, fig.width = 5.2, fig.height = 5.2--------------------
+## ---- echo = TRUE, fig.width = 5.2, fig.height = 5.2---------------------
 VFSeries$TimeYears <- VFSeries$Time / 365
 PlotCP(reg.spCP, VFSeries, dls = "DLS", time = "TimeYears", location = "Location", cp.line = TRUE, cp.ci = TRUE)
 

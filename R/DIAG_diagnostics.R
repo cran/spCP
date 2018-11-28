@@ -42,23 +42,6 @@
 #' @references Vehtari, A., Gelman, A., & Gabry, J. (2016). Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC. Statistics and Computing, 1-20.
 #' @references Watanabe, S. (2010). Asymptotic equivalence of Bayes cross validation and widely applicable information criterion in singular learning theory. Journal of Machine Learning Research, 11(Dec), 3571-3594.
 #'
-#' @examples
-#'
-#' ###Load example spCP object from spCP documentation
-#' data(reg.spCP)
-#'
-#' ###Obtain diagnostics from a spCP regression object
-#' diag <- diagnostics(reg.spCP)
-#'
-#' ###View DIC diagnostics
-#' print(unlist(diag$dic))
-#'
-#' ###View wAIC diagnostics
-#' print(unlist(diag$waic))
-#'
-#' ###View D_inf diagnostics
-#' print(unlist(diag$dinf))
-#'
 #' @export
 diagnostics <- function(obj, diags = c("dic", "dinf", "waic"), keepDeviance = FALSE, keepPPD = FALSE) {
 

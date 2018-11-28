@@ -32,16 +32,6 @@ Predicts future observations from the \code{\link{spCP}} model.
 \code{predict.spCP} uses Bayesian krigging to obtain posterior samples
 from future time points.
 }
-\examples{
-
-###Load example spCP object from spCP documentation
-data(reg.spCP)
-
-###Obtain predictions from a spCP regression object
-Y <- predict(reg.spCP, NewTimes = c(1.25, 1.50))
-
-}
 \author{
 Samuel I. Berchuck
 }
-
