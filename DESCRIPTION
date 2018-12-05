@@ -1,8 +1,8 @@
 Package: spCP
 Type: Package
 Title: Spatially Varying Change Points
-Version: 1.1
-Date: 2018-11-28
+Version: 1.2
+Date: 2018-12-04
 Authors@R: person("Samuel I.", "Berchuck", email = "sib2@duke.edu", role = c("aut", "cre"))
 Description: Implements a spatially varying change point model with 
     unique intercepts, slopes, variance intercepts and slopes, and 
@@ -28,8 +28,8 @@ Imports: graphics, grDevices, msm (>= 1.0.0), mvtnorm (>= 1.0-0), Rcpp
 Suggests: coda, classInt, knitr, rmarkdown, womblR (>= 1.0.3)
 LinkingTo: Rcpp, RcppArmadillo (>= 0.7.500.0.0)
 VignetteBuilder: knitr
-Packaged: 2018-11-28 17:08:13 UTC; sam
+Packaged: 2018-12-04 19:48:16 UTC; sam
 Author: Samuel I. Berchuck [aut, cre]
 Maintainer: Samuel I. Berchuck <sib2@duke.edu>
 Repository: CRAN
-Date/Publication: 2018-11-28 18:00:03 UTC
+Date/Publication: 2018-12-05 07:40:03 UTC
