@@ -2,6 +2,7 @@
 % Please edit documentation in R/MCMC_spCP.R, R/spCP-package.R
 \docType{package}
 \name{spCP}
+\alias{spCP-package}
 \alias{spCP}
 \title{MCMC sampler for spatially varying change point model.}
 \usage{
@@ -171,6 +172,8 @@ distances is often used for improved MCMC convergence. By default it is fixed at
 \code{spCP} is a Markov chain Monte Carlo (MCMC) sampler for a spatially varying change point
  model with spatially varying slopes, intercepts, and unique variances at each spatial-temporal
  location. The model is implemented using a Bayesian hierarchical framework.
+
+Implements a spatially varying change point model with unique intercepts, slopes, variance intercepts and slopes, and change points at each location. Inference is within the Bayesian setting using Markov chain Monte Carlo (MCMC). The response variable can be modeled as Gaussian (no nugget), probit or Tobit link and the five spatially varying parameter are modeled jointly using a multivariate conditional autoregressive (MCAR) prior. The MCAR is a unique process that allows for a dissimilarity metric to dictate the local spatial dependencies. Full details of the package can be found in the accompanying vignette. Furthermore, the details of the package can be found in the corresponding paper on arXiv by Berchuck et al (2018): "A spatially varying change points model for monitoring glaucoma progression using visual field data", \href{https://arxiv.org/abs/1811.11038}{arXiv:1811.11038}.
 }
 \details{
 Details of the underlying statistical model proposed by proposed by

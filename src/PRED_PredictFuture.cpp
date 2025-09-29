@@ -56,10 +56,10 @@ arma::cube PredictFuture(Rcpp::List DatObj_List, Rcpp::List Para_List, int NKeep
       for (arma::uword s = 0; s < M; s++) {
         NewTime = NewTimes(t);
         CP = Theta(s);
-        if (CP <= NewTime) Mu = Beta0(s);
-        if (CP > NewTime) Mu = Beta0(s) + Beta1(s) * (NewTime - CP);
-        if (CP <= NewTime) Sigma = exp(Lambda0(s));
-        if (CP > NewTime) Sigma = exp(Lambda0(s) + Lambda1(s) * (NewTime - CP));
+        if (CP >= NewTime) Mu = Beta0(s);
+        if (CP < NewTime) Mu = Beta0(s) + Beta1(s) * (NewTime - CP);
+        if (CP >= NewTime) Sigma = exp(Lambda0(s));
+        if (CP < NewTime) Sigma = exp(Lambda0(s) + Lambda1(s) * (NewTime - CP));
         YPred.subcube(i, s, t, i, s, t) = fmax(0, arma::as_scalar(rnormRcpp(1, Mu, Sigma)));
       }
     }

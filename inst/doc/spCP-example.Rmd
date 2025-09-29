@@ -16,7 +16,6 @@ This is a brief description of how to use the `spCP` package within the context 
 ```{r, echo = FALSE}
 ###Start with a clean space
 # rm(list = ls())
-
 ###Take care of some stuff that I don't want the user to see...
 # path.package <- "/Users/Sam/Desktop/spCP/"
 # suppressMessages(devtools::load_all(path.package)) #loads scripts
@@ -161,7 +160,6 @@ reg.spCP <- spCP(Y = Y, DM = DM, W = W, Time = Time,
                  ScaleY = 10, 
                  ScaleDM = 100, 
                  Seed = 54)
-
 ## Burn-in progress:  |*************************************************|
 ## Sampler progress:  0%..  10%..  20%..  30%..  40%..  50%..  60%..  70%..  80%..  90%..  100%..
 ```

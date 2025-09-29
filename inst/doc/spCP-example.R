@@ -1,7 +1,6 @@
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 ###Start with a clean space
 # rm(list = ls())
-
 ###Take care of some stuff that I don't want the user to see...
 # path.package <- "/Users/Sam/Desktop/spCP/"
 # suppressMessages(devtools::load_all(path.package)) #loads scripts
@@ -15,7 +14,7 @@ library(spCP)
 ## -----------------------------------------------------------------------------
 head(VFSeries)
 
-## ---- fig.align="center", fig.width = 5.5, fig.height = 5.5-------------------
+## ----fig.align="center", fig.width = 5.5, fig.height = 5.5--------------------
 PlotVfTimeSeries(Y = VFSeries$DLS,
                  Location = VFSeries$Location,
                  Time = VFSeries$Time,
@@ -42,7 +41,7 @@ M <- dim(W)[1] # number of locations
 ## -----------------------------------------------------------------------------
 DM <- GarwayHeath[-blind_spot] # Garway-Heath angles
 
-## ---- fig.align="center", fig.width = 5.5, fig.height = 5.5-------------------
+## ----fig.align="center", fig.width = 5.5, fig.height = 5.5--------------------
 PlotAdjacency(W = W, DM = DM, zlim = c(0, 180), Visit = NA, 
               main = "Garway-Heath dissimilarity metric\n across the visual field")
 
@@ -76,10 +75,10 @@ Tuning <- list(Lambda0Vec = rep(1, M),
 ## -----------------------------------------------------------------------------
 MCMC <- list(NBurn = 1000, NSims = 1000, NThin = 2, NPilot = 5)
 
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 reg.spCP <- spCP(Y = Y, DM = DM, W = W, Time = Time, Starting = Starting, Hypers = Hypers, Tuning = Tuning, MCMC = MCMC)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  reg.spCP <- spCP(Y = Y, DM = DM, W = W, Time = Time,
 #                   Starting = Starting, Hypers = Hypers, Tuning = Tuning, MCMC = MCMC,
 #                   Family = "tobit",
@@ -89,7 +88,6 @@ reg.spCP <- spCP(Y = Y, DM = DM, W = W, Time = Time, Starting = Starting, Hypers
 #                   ScaleY = 10,
 #                   ScaleDM = 100,
 #                   Seed = 54)
-#  
 #  ## Burn-in progress:  |*************************************************|
 #  ## Sampler progress:  0%..  10%..  20%..  30%..  40%..  50%..  60%..  70%..  80%..  90%..  100%..
 
@@ -102,28 +100,28 @@ library(coda)
 ## -----------------------------------------------------------------------------
 Alpha <- as.mcmc(reg.spCP$alpha)
 
-## ---- fig.width = 5.2, fig.height = 5.2, echo = FALSE-------------------------
+## ----fig.width = 5.2, fig.height = 5.2, echo = FALSE--------------------------
 par(mfrow = c(1, 1))
 traceplot(Alpha, ylab = expression(alpha), main = expression(paste("Posterior" ~ alpha)))
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 geweke.diag(Alpha)$z
 
-## ---- echo = TRUE, fig.width = 5.2, fig.height = 5.2--------------------------
+## ----echo = TRUE, fig.width = 5.2, fig.height = 5.2---------------------------
 VFSeries$TimeYears <- VFSeries$Time / 365
 PlotCP(reg.spCP, VFSeries, dls = "DLS", time = "TimeYears", location = "Location", cp.line = TRUE, cp.ci = TRUE)
 
 ## -----------------------------------------------------------------------------
 Diags <- spCP::diagnostics(reg.spCP, diags = c("dic", "dinf", "waic"), keepDeviance = TRUE)
 
-## ---- fig.align = 'center', fig.width = 4, fig.height = 3.3-------------------
+## ----fig.align = 'center', fig.width = 4, fig.height = 3.3--------------------
 Deviance <- as.mcmc(Diags$deviance)
 traceplot(Deviance, ylab = "Deviance", main = "Posterior Deviance")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  print(Diags)
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 unlist(Diags$dic)
 unlist(Diags$dinf)
 unlist(Diags$waic)
@@ -138,7 +136,7 @@ Predictions <- predict(reg.spCP, NewTimes)
 ## -----------------------------------------------------------------------------
 names(Predictions)
 
-## ---- fig.align = 'center', fig.width = 4.5, fig.height = 4.5-----------------
+## ----fig.align = 'center', fig.width = 4.5, fig.height = 4.5------------------
 CPProbs <- apply(reg.spCP$eta, 2, function(x) mean(x < Time[Nu]))
 PlotSensitivity(Y = CPProbs,
                 main = "Probability of an observed \n change point",

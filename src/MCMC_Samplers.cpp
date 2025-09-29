@@ -1,3 +1,5 @@
+#include <limits>
+#include <cmath>
 #include <RcppArmadillo.h>
 #include "MCMC_spCP.h"
 
@@ -291,10 +293,10 @@ std::pair<para, metrobj> SampleLambda0(datobj DatObj, para Para, metrobj MetrObj
     TuningSD = sqrt(MetropLambda0Vec(Loc));
 
     //Numerical fix for when a propopsal is rounded to -Inf or Inf
-    Lambda0LocProposal = arma::datum::inf;
+    Lambda0LocProposal = std::numeric_limits<double>::infinity();
     LambdaProposal = Lambda;
     LambdaLocProposal = LambdaLoc;
-    while ((!arma::is_finite(Lambda0LocProposal))) {
+    while (!std::isfinite(Lambda0LocProposal)) {
 
       //Sample proposal
       Lambda0LocProposal = arma::as_scalar(rnormRcpp(1, LambdaLoc(0), TuningSD));
@@ -427,10 +429,10 @@ std::pair<para, metrobj> SampleLambda1(datobj DatObj, para Para, metrobj MetrObj
     TuningSD = sqrt(MetropLambda1Vec(Loc));
 
     //Numerical fix for when a propopsal is rounded to -Inf or Inf
-    Lambda1LocProposal = arma::datum::inf;
+    Lambda1LocProposal = std::numeric_limits<double>::infinity();
     LambdaProposal = Lambda;
     LambdaLocProposal = LambdaLoc;
-    while ((!arma::is_finite(Lambda1LocProposal))) {
+    while (!std::isfinite(Lambda1LocProposal)) {
 
       //Sample proposal
       Lambda1LocProposal = arma::as_scalar(rnormRcpp(1, LambdaLoc(1), TuningSD));
@@ -566,9 +568,9 @@ std::pair<para, metrobj> SampleEta(datobj DatObj, para Para, metrobj MetrObj) {
     TuningSD = sqrt(MetropEtaVec(Loc));
 
     //Numerical fix for when a propopsal is rounded to -Inf or Inf
-    EtaLocProposal = arma::datum::inf;
+    EtaLocProposal = std::numeric_limits<double>::infinity();
     EtaProposal = Eta;
-    while ((!arma::is_finite(EtaLocProposal))) {
+    while (!std::isfinite(EtaLocProposal)) {
 
       //Sample proposal
       EtaLocProposal = arma::as_scalar(rnormRcpp(1, Eta(Loc), TuningSD));
@@ -660,14 +662,14 @@ arma::vec SampleProbit(datobj DatObj, para Para, dataug DatAug) {
   //Sample latent Variable from full conditional
   for (int i = 0; i < NBelow; i++) {
     double Temp = rtnormRcpp(Mean(i), SD(i), true);
-    if (!arma::is_finite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), -100000, 0);
-    if (!arma::is_finite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
+    if (!std::isfinite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), -100000, 0);
+    if (!std::isfinite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
     YStar(WhichBelow(i)) = Temp;
   }
   for (int i = 0; i < NAbove; i++) {
     double Temp = rtnormRcpp(Mean(i), SD(i), false);
-    if (!arma::is_finite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), 0, 100000);
-    if (!arma::is_finite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
+    if (!std::isfinite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), 0, 100000);
+    if (!std::isfinite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
     YStar(WhichAbove(i)) = Temp;
   }
   return YStar;
@@ -698,8 +700,8 @@ arma::vec SampleTobit(datobj DatObj, para Para, dataug DatAug) {
   //Sample latent Variable from full conditional
   for (int i = 0; i < NBelow; i++) {
     double Temp = rtnormRcpp(Mean(i), SD(i), true);
-    if (!arma::is_finite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), -arma::datum::inf, 0);
-    if (!arma::is_finite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
+    if (!std::isfinite(Temp)) Temp = rtnormRcppMSM(Mean(i), SD(i), -arma::datum::inf, 0);
+    if (!std::isfinite(Temp)) Rcpp::stop("infinte value sampled in Tobit sampling step. Most likey cause for this error is that the data being used is inappropriate (i.e., to far from zero) for a Tobit model. Consider scaling towards zero and re-running.");
     YStar(WhichBelow(i)) = Temp;
   }
   return YStar;
